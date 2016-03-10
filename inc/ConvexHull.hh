@@ -31,6 +31,7 @@ public:
 
   void assign(const std::vector<Point> &points);
   const std::vector<Point> &computeHull();
+  const std::vector<Point> &getHull() const;
 
 private:
   int cross(const Point &O, const Point &A, const Point &B) const;

@@ -16,9 +16,9 @@ int ConvexHull::cross(const Point &O, const Point &A, const Point &B) const {
   return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
 }
 
-const std::vector<Point> &ConvexHull::computeHull() {
-  int nbPoint = this->points.size();
+const std::vector<Point> &ConvexHull::getHull() const { return this->hull; }
 
+const std::vector<Point> &ConvexHull::computeHull() {
   this->hull.clear();
 
   // Build lower hull
@@ -35,7 +35,7 @@ const std::vector<Point> &ConvexHull::computeHull() {
 
   // Build upper hull
   std::vector<Point> upperHull;
-  for (int i = nbPoint - 1; i >= 0; --i) {
+  for (int i = this->points.size() - 1; i >= 0; --i) {
     int hullSize = upperHull.size();
     while (hullSize >= 2 &&
            cross(upperHull[hullSize - 2], upperHull[hullSize - 1],
