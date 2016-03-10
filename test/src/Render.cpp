@@ -11,6 +11,7 @@ void Render::run() {
   sf::Texture texture;
   sf::Sprite sprite;
   sf::Vector2u size = _window.getSize();
+  sf::VertexArray lines(sf::LinesStrip);
 
   image.create(size.x, size.y, sf::Color::Black);
   texture.create(size.x, size.y);
@@ -30,12 +31,23 @@ void Render::run() {
           sc.setPosition(event.mouseButton.x, event.mouseButton.y);
           sc.setFillColor(sf::Color(255, 255, 255));
           this->points.push_back(sc);
+          this->positions.push_back(
+              Point(event.mouseButton.x, event.mouseButton.y));
+          this->hull.assign(this->positions);
+          const auto &vecHull = this->hull.computeHull();
+          lines.clear();
+          for (const auto &p : vecHull) {
+            lines.append(
+                sf::Vertex(sf::Vector2f(p.x, p.y), sf::Color(255, 255, 255)));
+          }
         }
       }
     }
 
-    for (const auto &p : this->points)
+    for (const auto &p : this->points) {
       _window.draw(p);
+    }
+    _window.draw(lines);
     _window.display();
   }
 }

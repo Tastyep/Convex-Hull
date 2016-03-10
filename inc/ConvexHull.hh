@@ -4,8 +4,14 @@
 #include <vector>
 
 struct Point {
-  int x;
-  int y;
+  double x;
+  double y;
+
+  Point(double x, double y) : x(x), y(y) {}
+  Point(const Point &p) {
+    x = p.x;
+    y = p.y;
+  }
 
   bool operator<(const Point &p) const {
     return (x < p.x || (x == p.x && y < p.y));
@@ -15,6 +21,7 @@ struct Point {
 class ConvexHull {
 public:
   ConvexHull(const std::vector<Point> &points);
+  ConvexHull() = default;
 
   ~ConvexHull() = default;
   ConvexHull(const ConvexHull &other) = default;
@@ -22,6 +29,7 @@ public:
   ConvexHull &operator=(const ConvexHull &other) = default;
   ConvexHull &operator=(ConvexHull &&other) = default;
 
+  void assign(const std::vector<Point> &points);
   const std::vector<Point> &computeHull();
 
 private:
